@@ -9,7 +9,7 @@ const http = require("http").Server(app)
 const io = require("socket.io")(http, {
   cors: {
     credentials: true,
-    origin: ["https://sparkling-gingersnap-774224.netlify.app/"],
+    origin: ["https://mobile-scan-and-go.netlify.app/"],
     methods: ["GET", "POST"]
   }
 })
