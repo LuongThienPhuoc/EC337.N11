@@ -8,8 +8,7 @@ const http = require("http").Server(app)
 
 const io = require("socket.io")(http, {
   cors: {
-    credentials: true,
-    origin: ["https://mobile-scan-and-go.netlify.app/"],
+    origin: "*",
     methods: ["GET", "POST"]
   }
 })
