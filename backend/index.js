@@ -14,51 +14,84 @@ const io = require("socket.io")(http, {
   }
 })
 
-const users = {
-  user: [
-    {
-      useridsocket: "",
-      list: [],
-    }
-  ]
-}
-
-const addUser = (id) => {
-  const user = users.user.filter(user => user.id === id)
-  if (user.length === 0) {
-    users.user.push({
-      id
-    })
+let users = [
+  {
+    userIdSocket: "f6eukhQWY10eRjsjAAA5",
+    list: [
+      {
+        idProduct: 1,
+        amount: 25
+      }
+    ],
+  },
+  {
+    userIdSocket: "y6fLS3RaCVwbYq9dAAA9",
+    list: [
+      {
+        idProduct: 2,
+        amount: 23
+      }
+    ],
+  },
+  {
+    userIdSocket: "1Enm3ReEN3-ovuwqAAA_",
+    list: [
+      {
+        idProduct: 3,
+        amount: 11
+      }
+    ],
+  },
+  {
+    userIdSocket: "LwTvQL8UIrC_bLZAAAAv",
+    list: [
+      {
+        idProduct: 4,
+        amount: 21
+      }
+    ],
   }
-}
+]
 
-const deleteUser = (id) => {
-  users.user = users.user.filter(user => user.id !== id)
-}
+let admins = []
+
+
+
+
 
 io.on("connection", socket => {
-  console.log("someone connected " + socket.id);
-  addUser(socket.id)
+  socket.emit("me", socket.id)
+  socket.emit("getListCart", { users })
+  socket.on("admin-join", (socketId) => {
+    console.log("admin join with id " + socketId)
+    admins.push(socketId)
+  })
 
-  socket.on("setName", fullname => {
-    users.user = users.user.map(user => {
-      if (user.id === socket.id) {
-        user.fullname = fullname
+  socket.on("update-cart", data => {
+    users = users.map(user => {
+      if (user.userIdSocket === data.idSocket) {
+        if (data.amount === 0) {
+          user.list = user.list.filter(item => item.idProduct !== data.idProduct)
+        } else {
+          user.list = user.list.map(item => {
+            if (item.idProduct === data.idProduct) {
+              item.amount = data.amount
+            }
+            return item
+          })
+        }
       }
       return user
     })
-    console.log(users)
+    admins.forEach(admin => {
+      socket.to(admin).emit("getListCart", { users, idSocket: data.idSocket })
+    })
   })
 
-  socket.on("sendMessageToAdmin", (message) => {
-    const user = users.user.filter(user => user.id === socket.id)
-    // socket.to(users.admin).emit("getMessageFromUser", { message, user })
-    io.emit("getMessageFromUser", { message, user })
-  })
 
   socket.on("disconnect", () => {
     console.log("someone disconnected " + socket.id);
-    deleteUser(socket.id)
+    admins = admins.filter(id => id !== socket.id)
   });
 });
 
