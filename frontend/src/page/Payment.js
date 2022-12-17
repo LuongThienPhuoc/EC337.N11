@@ -10,7 +10,7 @@ import socketIOClient from "socket.io-client"
 import data from "./data.json"
 
 const { Header, Content, Footer } = Layout
-const host = "http://localhost:5050"
+const host = "https://payment-be.onrender.com/"
 const Payment = () => {
   const navigate = useNavigate()
   const socketRef = useRef()
