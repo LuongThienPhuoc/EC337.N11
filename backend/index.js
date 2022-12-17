@@ -9,7 +9,7 @@ const http = require("http").Server(app)
 const io = require("socket.io")(http, {
   cors: {
     credentials: true,
-    origin: true,
+    origin: ["https://sparkling-gingersnap-774224.netlify.app/"],
     methods: ["GET", "POST"]
   }
 })
@@ -139,7 +139,8 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: "*"
+    origin: true,
+    methods: ["GET", "POST"]
   })
 )
 
