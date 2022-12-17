@@ -15,12 +15,16 @@ const io = require("socket.io")(http, {
 })
 
 const users = {
-  user: []
+  user: [
+    {
+      useridsocket: "",
+      list: [],
+    }
+  ]
 }
 
 const addUser = (id) => {
   const user = users.user.filter(user => user.id === id)
-  console.log(user)
   if (user.length === 0) {
     users.user.push({
       id

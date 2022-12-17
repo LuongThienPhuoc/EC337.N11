@@ -2,6 +2,8 @@ import { Layout, Menu, Row, Col } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cart from './Cart';
+import QRCode from "react-qr-code";
+
 const { Header, Content, Footer } = Layout;
 
 const Payment = () => {
@@ -42,7 +44,11 @@ const Payment = () => {
                     <Row style={{ marginTop: "50px" }} gutter={[16, 16]}>
                         <Col span={8}>
                             <div style={{ background: "black", display: "flex", borderRadius: "8px", width: "100%", flexDirection: "column", alignItems: "center", padding: "5px 10px" }}>
-                                <img style={{ margin: "10px", width: "95%", borderRadius: "8px" }} alt="example" src="https://tudongvietphat.com/wp-content/uploads/2021/01/Tu-lanh-Casper-RM-680VBW-645l-4-cua-web4.jpg" />
+                                <QRCode
+                                    size={256}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    viewBox={`0 0 256 256`}
+                                    value={1000000} />
                                 <div style={{ textAlign: "center", color: "white", margin: "5px 0", fontWeight: "600", fontSize: "2rem" }}>SCAN ME</div>
                             </div>
                         </Col>
