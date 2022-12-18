@@ -23,11 +23,7 @@ const Payment = () => {
     socketRef.current.on("me", (id) => {
       socketRef.current.emit("admin-join", id)
     })
-    socketRef.current.on("update-user", (data) => {
-      setUser(data)
-    })
     socketRef.current.on("getListCart", (data) => {
-      console.log("data", data)
       setUserSelect(
         data.users.find((cart) => cart.userIdSocket === data.idSocket)
       )
@@ -195,7 +191,6 @@ const Payment = () => {
                   })}
                 </Avatar.Group>
               </div>
-              {JSON.stringify(userSelect?.userIdSocket)}
               {userSelect && (
                 <>
                   <Cart updateCart={updateCart} items={userSelect.list}></Cart>
