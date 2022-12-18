@@ -1,4 +1,4 @@
-import { Layout, Menu, Row, Col, Skeleton } from "antd"
+import { Layout, Menu, Row, Col, Skeleton, Button } from "antd"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Cart from "./Cart"
@@ -8,6 +8,7 @@ import QRCode from "react-qr-code"
 import { useEffect, useRef } from "react"
 import socketIOClient from "socket.io-client"
 import data from "./data.json"
+import axios from "axios"
 
 const { Header, Content, Footer } = Layout
 const host = "https://payment-be.onrender.com/"
@@ -119,7 +120,7 @@ const Payment = () => {
       >
         <div className="site-layout-content">
           <Row style={{ marginTop: "50px" }} gutter={[16, 16]}>
-            <Col span={8}>
+            {/* <Col span={8}>
               {reRenderQr ? (
                 <Skeleton active />
               ) : (
@@ -153,9 +154,39 @@ const Payment = () => {
                   </div>
                 </div>
               )}
+            </Col> */}
+            <Col span={6}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  axios
+                    .post("http://localhost:5000/momo", {
+                      amount: totalMoney
+                    })
+                    .then((res) => {
+                      console.log("res", res)
+                      // navigate(res.data);
+                      window.location.replace(res.data)
+                    })
+                  // axios
+                  //   .post("http://localhost:5000/momo", {
+                  //     amount: totalMoney
+                  //   })
+                  //   .then((res) => {
+                  //     console.log("res", res)
+                  //     // navigate(res.data);
+                  //     if (res.data.length) window.location.replace(res.data)
+                  //   })
+                  const d = new Date()
+                  d.setTime(d.getTime() + 30 * 24 * 60 * 60 * 1000)
+                  let expires = "expires=" + d.toUTCString()
+                  document.cookie = 0 + "=" + 0 + ";" + expires + ";path=/"
+                }}
+              >
+                Go to payment
+              </Button>
             </Col>
-
-            <Col span={10} offset={3}>
+            <Col span={18}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <h1 style={{ marginBottom: "30px", paddingRight: "20px" }}>
                   Users:
