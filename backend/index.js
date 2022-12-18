@@ -8,7 +8,8 @@ const http = require("http").Server(app)
 
 const io = require("socket.io")(http, {
   cors: {
-    origin: false,
+    credentials: true,
+    origin: true,
     methods: ["GET", "POST"]
   }
 })
@@ -138,8 +139,7 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: true,
-    methods: ["GET", "POST"]
+    origin: "*"
   })
 )
 
